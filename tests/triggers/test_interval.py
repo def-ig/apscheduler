@@ -98,3 +98,24 @@ def test_interval_setter():
     )
     trigger.interval = interval
     assert trigger.interval == interval
+
+
+def test_fields_from_interval_setter():
+    interval = timedelta(
+        weeks=47,
+        days=9,
+        hours=27,
+        minutes=64,
+        seconds=65,
+        milliseconds=1234,
+        microseconds=1525,
+    )
+    trigger = IntervalTrigger(seconds=1)
+    trigger.interval = interval
+    assert trigger.weeks == 48
+    assert trigger.days == 3
+    assert trigger.hours == 4
+    assert trigger.minutes == 5
+    assert trigger.seconds == 6
+    assert trigger.milliseconds == 235
+    assert trigger.microseconds == 525
