@@ -47,6 +47,7 @@ def test_repr(timezone, serializer):
         hours=3,
         minutes=4,
         seconds=5,
+        milliseconds=1234,
         microseconds=123525,
         start_time=start_time,
         end_time=end_time,
@@ -55,7 +56,7 @@ def test_repr(timezone, serializer):
         trigger = serializer.deserialize(serializer.serialize(trigger))
 
     assert repr(trigger) == (
-        "IntervalTrigger(weeks=1, days=2, hours=3, minutes=4, seconds=5, "
+        "IntervalTrigger(weeks=1, days=2, hours=3, minutes=4, seconds=5, milliseconds=1234, "
         "microseconds=123525, start_time='2020-05-15 12:55:32.954032+02:00', "
         "end_time='2020-06-04 16:18:49.306942+02:00')"
     )

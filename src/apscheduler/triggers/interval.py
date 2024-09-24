@@ -27,6 +27,7 @@ class IntervalTrigger(Trigger):
     :param hours: number of hours to wait
     :param minutes: number of minutes to wait
     :param seconds: number of seconds to wait
+    :param milliseconds: number of milliseconds to wait
     :param microseconds: number of microseconds to wait
     :param start_time: first trigger date/time (defaults to current date/time if
         omitted)
@@ -38,6 +39,7 @@ class IntervalTrigger(Trigger):
     hours: float = 0
     minutes: float = 0
     seconds: float = 0
+    milliseconds: float = 0
     microseconds: float = 0
     start_time: datetime = attrs.field(
         converter=as_aware_datetime,
@@ -61,6 +63,7 @@ class IntervalTrigger(Trigger):
             hours=self.hours,
             minutes=self.minutes,
             seconds=self.seconds,
+            milliseconds=self.milliseconds,
             microseconds=self.microseconds,
         )
 
@@ -90,6 +93,7 @@ class IntervalTrigger(Trigger):
                 self.hours,
                 self.minutes,
                 self.seconds,
+                self.milliseconds,
                 self.microseconds,
             ],
             "start_time": self.start_time,
@@ -105,6 +109,7 @@ class IntervalTrigger(Trigger):
             self.hours,
             self.minutes,
             self.seconds,
+            self.milliseconds,
             self.microseconds,
         ) = state["interval"]
         self.start_time = state["start_time"]
@@ -116,12 +121,13 @@ class IntervalTrigger(Trigger):
             hours=self.hours,
             minutes=self.minutes,
             seconds=self.seconds,
+            milliseconds=self.milliseconds,
             microseconds=self.microseconds,
         )
 
     def __repr__(self) -> str:
         fields = []
-        for field in "weeks", "days", "hours", "minutes", "seconds", "microseconds":
+        for field in "weeks", "days", "hours", "minutes", "seconds", "milliseconds", "microseconds":
             value = getattr(self, field)
             if value > 0:
                 fields.append(f"{field}={value}")
