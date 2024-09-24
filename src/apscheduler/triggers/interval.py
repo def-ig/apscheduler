@@ -127,7 +127,15 @@ class IntervalTrigger(Trigger):
 
     def __repr__(self) -> str:
         fields = []
-        for field in "weeks", "days", "hours", "minutes", "seconds", "milliseconds", "microseconds":
+        for field in (
+            "weeks",
+            "days",
+            "hours",
+            "minutes",
+            "seconds",
+            "milliseconds",
+            "microseconds",
+        ):
             value = getattr(self, field)
             if value > 0:
                 fields.append(f"{field}={value}")
@@ -137,3 +145,18 @@ class IntervalTrigger(Trigger):
             fields.append(f"end_time='{self.end_time}'")
 
         return f'{self.__class__.__name__}({", ".join(fields)})'
+
+    @property
+    def interval(self) -> timedelta:
+        return self._interval
+
+    @interval.setter
+    def interval(self, value: timedelta) -> None:
+        self.weeks = value.days // 7
+        self.days = value.days % 7
+        self.hours = value.seconds // 3600
+        self.minutes = (value.seconds % 3600) // 60
+        self.seconds = value.seconds % 60
+        self.milliseconds = value.microseconds // 1000
+        self.microseconds = value.microseconds % 1000
+        self._interval = value
